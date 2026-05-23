@@ -36,7 +36,7 @@ public class SimuladorDeFinanciamento {
             ;
 
             MemoriaDeCalculo memoriaDeCalculo = gerarMemoriaDeCalculo(
-                    valorInicial, dataBase, valorJurosMes, valorFinalMes);
+                    dataBase, valorInicial, valorJurosMes, valorFinalMes);
 
             memoriaDeCalculo.setFinanciamento(financiamento);
             financiamento.getMemoriasDeCalculo().add(memoriaDeCalculo);
@@ -57,21 +57,14 @@ public class SimuladorDeFinanciamento {
             return financiamento;
     }
 
-    private MemoriaDeCalculo gerarMemoriaDeCalculo(BigDecimal valorInicial, LocalDate data, BigDecimal valorJurosMes, BigDecimal valorFinalMes) {
-        MemoriaDeCalculo memoria = new MemoriaDeCalculo();
-        memoria.setValorInicial(valorInicial);
-        memoria.setData(data);
-        memoria.setValorJurosMes(valorJurosMes);
-        memoria.setValorSaldoFinalMes(valorFinalMes);
-        return memoria;
+    public MemoriaDeCalculo gerarMemoriaDeCalculo(LocalDate data, BigDecimal valorInicial, BigDecimal valorJurosMes, BigDecimal valorFinalMes) {
+        return new MemoriaDeCalculo(
+                data, valorInicial, valorJurosMes, valorFinalMes);
     }
 
-    private boolean dadosValidos(Financiamento financiamento){
-        if(financiamento.getValorInicial().compareTo(BigDecimal.ZERO) <= 0 ||
-                financiamento.getPrazoMeses() <= 0 ||
-                financiamento.getTaxaJurosMensal() <= 0){
-            return false;
-        }
-        return true;
+    public boolean dadosValidos(Financiamento financiamento){
+        return financiamento.getValorInicial().compareTo(BigDecimal.ZERO) > 0 &&
+                financiamento.getPrazoMeses() > 0 &&
+                financiamento.getTaxaJurosMensal() > 0;
     }
 }

@@ -16,6 +16,14 @@
         <quarkus.platform.version>3.35.4</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
+
+        <quarkus.jacoco.excludes>
+            br/com/teshima/dto/**,
+            br/com/teshima/models/**,
+            br/com/teshima/enums/**,
+            br/com/teshima/config/**
+        </quarkus.jacoco.excludes>
+
     </properties>
 
     <dependencyManagement>
@@ -119,6 +127,25 @@
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.14</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

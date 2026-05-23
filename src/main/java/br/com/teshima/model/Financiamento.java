@@ -82,17 +82,4 @@ public class Financiamento {
     public List<MemoriaDeCalculo> getMemoriasDeCalculo() {
         return memoriasDeCalculo;
     }
-
-    @Override
-    public String toString() {
-        return "Financiamento{" +
-                "\n id=" + id +
-                "\n valorInicial=" + valorInicial +
-                "\n prazoMeses=" + prazoMeses +
-                "\n taxaJurosMensal=" + taxaJurosMensal +
-                "\n valorTotalJuros=" + valorTotalJuros +
-                "\n valorTotalFinal=" + valorTotalFinal +
-                "\n memoriaDeCalculos=" + memoriasDeCalculo +
-                '}';
-    }
 }

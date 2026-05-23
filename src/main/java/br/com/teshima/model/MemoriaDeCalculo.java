@@ -34,6 +34,14 @@ public class MemoriaDeCalculo {
         this.valorSaldoFinalMes = valorSaldoFinalMes;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public LocalDate getData() {
         return data;
     }
@@ -72,15 +80,6 @@ public class MemoriaDeCalculo {
 
     public void setFinanciamento(Financiamento financiamento) {
         this.financiamento = financiamento;
-    }
-
-    @Override
-    public String toString() {
-        return  "\n data=" + data +
-                "\n valorInicial=" + valorInicial +
-                "\n valorJurosMes=" + valorJurosMes +
-                "\n valorSaldoFinalMes=" + valorSaldoFinalMes +
-                "\n";
     }
 }
 
