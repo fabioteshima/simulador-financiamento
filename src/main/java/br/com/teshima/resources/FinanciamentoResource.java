@@ -2,6 +2,7 @@ package br.com.teshima.resources;
 
 import br.com.teshima.model.Financiamento;
 import br.com.teshima.model.dto.FinanciamentoReqDTO;
+import br.com.teshima.model.dto.FinanciamentoRespDTO;
 import br.com.teshima.services.FinanciamentoService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -26,17 +27,24 @@ public class FinanciamentoResource {
         novo.setPrazoMeses(dto.prazoMeses());
         novo.setTaxaJurosMensal(dto.taxaJurosMensal());
         financiamentoService.criar(novo);
-        return Response.status(Response.Status.CREATED).entity(novo).build();
+        return Response
+                .status(Response.Status.CREATED)
+                .entity(FinanciamentoRespDTO.converteDTO(novo))
+                .build();
     }
 
     @GET
     public Response buscarTodos(){
             List<Financiamento> lista = financiamentoService.buscarTodos();
             if(!lista.isEmpty()) {
-                return Response.ok(lista).build();
+                return Response
+                        .ok(FinanciamentoRespDTO.converteListaDTO(lista))
+                        .build();
             }
             else{
-                return Response.status(Response.Status.NO_CONTENT).build();
+                return Response
+                        .status(Response.Status.NO_CONTENT)
+                        .build();
         }
     }
 
@@ -45,10 +53,14 @@ public class FinanciamentoResource {
     public Response buscarPorId(@PathParam("id") Long id){
         Financiamento localizado = financiamentoService.buscarPorId(id);
         if(localizado != null){
-            return Response.ok(localizado).build();
+            return Response
+                    .ok(FinanciamentoRespDTO.converteDTO(localizado))
+                    .build();
         }
         else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
         }
     }
 }
