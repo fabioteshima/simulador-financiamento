@@ -1,8 +1,10 @@
 package br.com.teshima.resources;
 
 import br.com.teshima.model.Financiamento;
+import br.com.teshima.model.dto.FinanciamentoReqDTO;
 import br.com.teshima.services.FinanciamentoService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -18,21 +20,35 @@ public class FinanciamentoResource {
     FinanciamentoService financiamentoService;
 
     @POST
-    public Response criar(Financiamento financiamento){
-        Financiamento novo = financiamentoService.criar(financiamento);
+    public Response criar(@Valid FinanciamentoReqDTO dto){
+        Financiamento novo = new Financiamento();
+        novo.setValorInicial(dto.valorInicial());
+        novo.setPrazoMeses(dto.prazoMeses());
+        novo.setTaxaJurosMensal(dto.taxaJurosMensal());
+        financiamentoService.criar(novo);
         return Response.status(Response.Status.CREATED).entity(novo).build();
     }
 
     @GET
     public Response buscarTodos(){
-        List<Financiamento> lista = financiamentoService.buscarTodos();
-        return Response.ok(lista).build();
+            List<Financiamento> lista = financiamentoService.buscarTodos();
+            if(!lista.isEmpty()) {
+                return Response.ok(lista).build();
+            }
+            else{
+                return Response.status(Response.Status.NO_CONTENT).build();
+        }
     }
 
     @GET
     @Path("/{id}")
     public Response buscarPorId(@PathParam("id") Long id){
         Financiamento localizado = financiamentoService.buscarPorId(id);
-        return Response.ok(localizado).build();
+        if(localizado != null){
+            return Response.ok(localizado).build();
+        }
+        else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 }

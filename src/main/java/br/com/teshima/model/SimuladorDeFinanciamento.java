@@ -1,5 +1,7 @@
 package br.com.teshima.model;
 
+import br.com.teshima.exceptions.ServiceException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -11,7 +13,7 @@ public class SimuladorDeFinanciamento {
             processarTotal(financiamento);
             return financiamento;
         } else {
-            throw new IllegalArgumentException("Dados inválidos. Valores devem ser maior do que O");
+            throw new ServiceException("Dados inválidos. Valores devem ser maior do que O");
         }
     }
 
@@ -37,7 +39,7 @@ public class SimuladorDeFinanciamento {
                     valorInicial, dataBase, valorJurosMes, valorFinalMes);
 
             memoriaDeCalculo.setFinanciamento(financiamento);
-            financiamento.getMemoriaDeCalculos().add(memoriaDeCalculo);
+            financiamento.getMemoriasDeCalculo().add(memoriaDeCalculo);
 
             valorInicial = valorFinalMes;
             dataBase = dataBase.plusMonths(1);

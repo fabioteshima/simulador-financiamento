@@ -1,7 +1,5 @@
 package br.com.teshima.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -9,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "Financiamento")
+@Table(name = "financiamento")
 public class Financiamento {
 
     @Id
@@ -81,7 +79,7 @@ public class Financiamento {
         this.valorTotalJuros = valorTotalJuros;
     }
 
-    public List<MemoriaDeCalculo> getMemoriaDeCalculos() {
+    public List<MemoriaDeCalculo> getMemoriasDeCalculo() {
         return memoriasDeCalculo;
     }
 
