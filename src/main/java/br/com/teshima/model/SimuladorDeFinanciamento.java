@@ -6,8 +6,17 @@ import java.time.LocalDate;
 
 public class SimuladorDeFinanciamento {
 
+    public Financiamento simularFinanciamento(Financiamento financiamento) {
+        if (dadosValidos(financiamento)) {
+            processarTotal(financiamento);
+            return financiamento;
+        } else {
+            throw new IllegalArgumentException("Dados inválidos. Valores devem ser maior do que O");
+        }
+    }
+
     public Financiamento processarJuros(Financiamento financiamento){
-        LocalDate dataSimulacao = LocalDate.now().plusMonths(1);
+        LocalDate dataBase = LocalDate.now().plusMonths(1);
         BigDecimal valorInicial = financiamento.getValorInicial();
         BigDecimal valorTotalJuros = BigDecimal.ZERO;
 
@@ -25,29 +34,24 @@ public class SimuladorDeFinanciamento {
             ;
 
             MemoriaDeCalculo memoriaDeCalculo = gerarMemoriaDeCalculo(
-                    valorInicial, dataSimulacao, valorJurosMes, valorFinalMes);
+                    valorInicial, dataBase, valorJurosMes, valorFinalMes);
 
             financiamento.getMemoriaDeCalculos().add(memoriaDeCalculo);
 
             valorInicial = valorFinalMes;
-            dataSimulacao = dataSimulacao.plusMonths(1);
+            dataBase = dataBase.plusMonths(1);
             financiamento.setValorTotalJuros(valorTotalJuros);
         }
         return financiamento;
     }
 
-    public Financiamento simularFinanciamento(Financiamento financiamento){
-        if(dadosValidos(financiamento)){
+    public Financiamento processarTotal(Financiamento financiamento){
             financiamento = processarJuros(financiamento);
             BigDecimal valorFinal = financiamento.getValorInicial()
                     .add(financiamento.getValorTotalJuros())
                     .setScale(2, RoundingMode.HALF_UP);
             financiamento.setValorTotalFinal(valorFinal);
             return financiamento;
-        }
-        else {
-            throw new IllegalArgumentException("Dados inválidos. Valores devem ser maior do que O");
-        }
     }
 
     private MemoriaDeCalculo gerarMemoriaDeCalculo(BigDecimal valorInicial, LocalDate data, BigDecimal valorJurosMes, BigDecimal valorFinalMes) {
@@ -61,7 +65,8 @@ public class SimuladorDeFinanciamento {
 
     private boolean dadosValidos(Financiamento financiamento){
         if(financiamento.getValorInicial().compareTo(BigDecimal.ZERO) <= 0 ||
-            financiamento.getPrazoMeses() <= 0 || financiamento.getTaxaJurosMensal() <= 0){
+                financiamento.getPrazoMeses() <= 0 ||
+                financiamento.getTaxaJurosMensal() <= 0){
             return false;
         }
         return true;

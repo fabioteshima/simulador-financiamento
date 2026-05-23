@@ -1,14 +1,17 @@
 package br.com.teshima.model;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApplicationScoped
+@Entity
+@Table (name = "Financiamento")
 public class Financiamento {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private BigDecimal valorInicial;
     private Integer prazoMeses;
@@ -16,6 +19,7 @@ public class Financiamento {
     private BigDecimal valorTotalJuros;
     private BigDecimal valorTotalFinal;
 
+    @OneToMany(mappedBy = "financiamento")
     private List<MemoriaDeCalculo> memoriasDeCalculo = new ArrayList<>();
 
     public Financiamento(){
@@ -86,8 +90,8 @@ public class Financiamento {
                 "\n valorInicial=" + valorInicial +
                 "\n prazoMeses=" + prazoMeses +
                 "\n taxaJurosMensal=" + taxaJurosMensal +
-                "\n valorTotalFinal=" + valorTotalFinal +
                 "\n valorTotalJuros=" + valorTotalJuros +
+                "\n valorTotalFinal=" + valorTotalFinal +
                 "\n memoriaDeCalculos=" + memoriasDeCalculo +
                 '}';
     }

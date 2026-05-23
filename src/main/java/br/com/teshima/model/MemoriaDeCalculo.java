@@ -1,23 +1,42 @@
 package br.com.teshima.model;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "memoria_de_calculo")
 public class MemoriaDeCalculo {
 
-    private BigDecimal valorInicial;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDate data;
+    private BigDecimal valorInicial;
     private BigDecimal valorJurosMes;
     private BigDecimal valorSaldoFinalMes;
+
+    @ManyToOne
+    @JoinColumn(name = "financiamento_id")
+    Financiamento financiamento;
 
     public MemoriaDeCalculo(){
     }
 
-    public MemoriaDeCalculo(BigDecimal valorInicial, LocalDate data, BigDecimal valorJurosMes, BigDecimal valorSaldoFinalMes) {
-        this.valorInicial = valorInicial;
+    public MemoriaDeCalculo(LocalDate data, BigDecimal valorInicial, BigDecimal valorJurosMes, BigDecimal valorSaldoFinalMes) {
         this.data = data;
+        this.valorInicial = valorInicial;
         this.valorJurosMes = valorJurosMes;
         this.valorSaldoFinalMes = valorSaldoFinalMes;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public BigDecimal getValorInicial() {
@@ -30,14 +49,6 @@ public class MemoriaDeCalculo {
 
     public BigDecimal getValorJurosMes() {
         return valorJurosMes;
-    }
-
-    public LocalDate getData() {
-        return data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
     }
 
     public void setValorJurosMes(BigDecimal valorJurosMes) {
@@ -54,8 +65,8 @@ public class MemoriaDeCalculo {
 
     @Override
     public String toString() {
-        return  "\n valorInicial=" + valorInicial +
-                "\n data=" + data +
+        return  "\n data=" + data +
+                "\n valorInicial=" + valorInicial +
                 "\n valorJurosMes=" + valorJurosMes +
                 "\n valorSaldoFinalMes=" + valorSaldoFinalMes +
                 "\n";
