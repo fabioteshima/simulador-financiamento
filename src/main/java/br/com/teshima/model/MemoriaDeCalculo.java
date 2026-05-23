@@ -1,5 +1,7 @@
 package br.com.teshima.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -19,6 +21,7 @@ public class MemoriaDeCalculo {
 
     @ManyToOne
     @JoinColumn(name = "financiamento_id")
+    @JsonIgnore
     Financiamento financiamento;
 
     public MemoriaDeCalculo(){
@@ -61,6 +64,14 @@ public class MemoriaDeCalculo {
 
     public void setValorSaldoFinalMes(BigDecimal valorSaldoFinalMes) {
         this.valorSaldoFinalMes = valorSaldoFinalMes;
+    }
+
+    public Financiamento getFinanciamento() {
+        return financiamento;
+    }
+
+    public void setFinanciamento(Financiamento financiamento) {
+        this.financiamento = financiamento;
     }
 
     @Override

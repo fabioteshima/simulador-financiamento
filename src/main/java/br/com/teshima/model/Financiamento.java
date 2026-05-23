@@ -1,5 +1,7 @@
 package br.com.teshima.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -19,7 +21,7 @@ public class Financiamento {
     private BigDecimal valorTotalJuros;
     private BigDecimal valorTotalFinal;
 
-    @OneToMany(mappedBy = "financiamento")
+    @OneToMany(mappedBy = "financiamento", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MemoriaDeCalculo> memoriasDeCalculo = new ArrayList<>();
 
     public Financiamento(){

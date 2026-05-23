@@ -36,6 +36,7 @@ public class SimuladorDeFinanciamento {
             MemoriaDeCalculo memoriaDeCalculo = gerarMemoriaDeCalculo(
                     valorInicial, dataBase, valorJurosMes, valorFinalMes);
 
+            memoriaDeCalculo.setFinanciamento(financiamento);
             financiamento.getMemoriaDeCalculos().add(memoriaDeCalculo);
 
             valorInicial = valorFinalMes;
