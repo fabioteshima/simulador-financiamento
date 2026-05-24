@@ -65,8 +65,12 @@ public class SimuladorDeFinanciamento {
     }
 
     public boolean dadosValidos(Financiamento financiamento){
-        return financiamento.getValorInicial().compareTo(BigDecimal.ZERO) > 0 &&
+        return  financiamento != null &&
+                financiamento.getValorInicial() != null &&
+                financiamento.getValorInicial().compareTo(BigDecimal.ZERO) > 0 &&
+                financiamento.getPrazoMeses() != null &&
                 financiamento.getPrazoMeses() > 0 &&
+                financiamento.getTaxaJurosMensal() != null &&
                 financiamento.getTaxaJurosMensal() > 0;
     }
 }

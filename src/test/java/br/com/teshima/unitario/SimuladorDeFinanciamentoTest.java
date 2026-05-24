@@ -20,6 +20,13 @@ public class SimuladorDeFinanciamentoTest {
     }
 
     @Test
+    void deveFalharSeOObjetoFinanciamentoForNulo(){
+        Financiamento f = null;
+        boolean validado = simuladorDeFinanciamento.dadosValidos(f);
+        Assertions.assertFalse(validado);
+    }
+
+    @Test
     void deveFalharComValorInicialZerado(){
         Financiamento f = new Financiamento(BigDecimal.valueOf(0), 1, 1.0);
         boolean validado = simuladorDeFinanciamento.dadosValidos(f);
@@ -36,6 +43,27 @@ public class SimuladorDeFinanciamentoTest {
     @Test
     void deveFalharComValorDaTaxaDeJurosZerado(){
         Financiamento f = new Financiamento(BigDecimal.valueOf(1000), 1, 0.0);
+        boolean validado = simuladorDeFinanciamento.dadosValidos(f);
+        Assertions.assertFalse(validado);
+    }
+
+    @Test
+    void deveFalharComValorInicialNulo(){
+        Financiamento f = new Financiamento(null, 1, 1.0);
+        boolean validado = simuladorDeFinanciamento.dadosValidos(f);
+        Assertions.assertFalse(validado);
+    }
+
+    @Test
+    void deveFalharComValorDePrazoNulo(){
+        Financiamento f = new Financiamento(BigDecimal.valueOf(1000), null, 1.0);
+        boolean validado = simuladorDeFinanciamento.dadosValidos(f);
+        Assertions.assertFalse(validado);
+    }
+
+    @Test
+    void deveFalharComValorDaTaxaDeJurosNulo(){
+        Financiamento f = new Financiamento(BigDecimal.valueOf(1000), 1, null);
         boolean validado = simuladorDeFinanciamento.dadosValidos(f);
         Assertions.assertFalse(validado);
     }
@@ -62,7 +90,7 @@ public class SimuladorDeFinanciamentoTest {
     }
 
     @Test
-    void deveFalharFinanciamentoComDadosInválidos() {
+    void deveFalharFinanciamentoComDadosInvalidos() {
         Financiamento f = new Financiamento(BigDecimal.valueOf(1000), 1, 0.0);
         ServiceException exception = Assertions.assertThrows(ServiceException.class,
                 () -> simuladorDeFinanciamento.simularFinanciamento(f));
