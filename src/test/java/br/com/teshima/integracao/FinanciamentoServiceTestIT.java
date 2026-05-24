@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @QuarkusTest
-public class FinanciamentoServiceIntegracaoTest {
+public class FinanciamentoServiceTestIT {
 
     @Inject
     FinanciamentoService service;
