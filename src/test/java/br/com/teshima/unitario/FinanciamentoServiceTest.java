@@ -31,7 +31,6 @@ public class FinanciamentoServiceTest {
         Financiamento f1 = new Financiamento(BigDecimal.valueOf(1000), 1, 1.0);
         Financiamento f2 = new Financiamento(BigDecimal.valueOf(2000), 2, 2.0);
 
-        // mock do PanacheQuery
         PanacheQuery<Financiamento> queryMock = Mockito.mock(PanacheQuery.class);
         when(repositoryMock.findAll()).thenReturn(queryMock);
         when(queryMock.stream()).thenReturn(List.of(f1, f2).stream());

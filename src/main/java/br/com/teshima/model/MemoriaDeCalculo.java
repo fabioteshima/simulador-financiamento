@@ -2,6 +2,7 @@ package br.com.teshima.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
