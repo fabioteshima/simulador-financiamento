@@ -2,7 +2,7 @@ package br.com.teshima.unitario;
 
 import br.com.teshima.exceptions.ServiceException;
 import br.com.teshima.model.Financiamento;
-import br.com.teshima.model.SimuladorDeFinanciamento;
+import br.com.teshima.services.SimuladorDeFinanciamento;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -66,7 +66,7 @@ public class SimuladorDeFinanciamentoTest {
         Financiamento f = new Financiamento(BigDecimal.valueOf(1000), 1, 0.0);
         ServiceException exception = Assertions.assertThrows(ServiceException.class,
                 () -> simuladorDeFinanciamento.simularFinanciamento(f));
-        Assertions.assertEquals("Dados inválidos. Valores devem ser maior do que O", exception.getMessage());
+        Assertions.assertEquals("Dados inválidos. Valores devem ser maior do que 0", exception.getMessage());
     }
 }
 

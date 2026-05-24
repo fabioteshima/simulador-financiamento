@@ -1,6 +1,8 @@
-package br.com.teshima.model;
+package br.com.teshima.services;
 
 import br.com.teshima.exceptions.ServiceException;
+import br.com.teshima.model.Financiamento;
+import br.com.teshima.model.MemoriaDeCalculo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,7 +15,7 @@ public class SimuladorDeFinanciamento {
             processarTotal(financiamento);
             return financiamento;
         } else {
-            throw new ServiceException("Dados inválidos. Valores devem ser maior do que O");
+            throw new ServiceException("Dados inválidos. Valores devem ser maior do que 0");
         }
     }
 

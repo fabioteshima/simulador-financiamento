@@ -30,12 +30,16 @@ public class FinanciamentoResourceTestIT {
     }
 
     @Test
-    void deveBuscarTodosOsFinanciamentos() {
+    void deveBuscarTodosOsFinanciamentosSimulados() {
         // Primeiro cria um para garantir que a lista não esteja vazia
         given()
                 .contentType(ContentType.JSON)
                 .body("""
-                { "valorInicial": 500, "prazoMeses": 6, "taxaJurosMensal": 1.0 }
+                    {
+                      "valorInicial": 1000,
+                      "prazoMeses": 1,
+                      "taxaJurosMensal": 1.0
+                    }
                 """)
                 .post("/financiamentos");
 
@@ -47,12 +51,23 @@ public class FinanciamentoResourceTestIT {
     }
 
     @Test
-    void deveBuscarFinanciamentoPorIdExistente() {
-        // Cria um financiamento e pega o ID retornado
+    void deveRetornar204ParaVaziaNaConsulta(){
+        given()
+                .when().get("/financiamentos")
+                .then()
+                .statusCode(204);
+    }
+
+    @Test
+    void deveBuscarFinanciamentoSimuladoPorIdExistente() {
         Integer id = given()
                 .contentType(ContentType.JSON)
                 .body("""
-                { "valorInicial": 1000, "prazoMeses": 1, "taxaJurosMensal": 1.0 }
+                    {
+                      "valorInicial": 1000,
+                      "prazoMeses": 1,
+                      "taxaJurosMensal": 1.0
+                     }
                 """)
                 .post("/financiamentos")
                 .then()
@@ -71,5 +86,65 @@ public class FinanciamentoResourceTestIT {
                 .when().get("/financiamentos/99999")
                 .then()
                 .statusCode(404);
+    }
+
+    @Test
+    void deveRetornar400QuandoPrazoInvalido() {
+        String json = """
+            {
+              "valorInicial": 1000,
+              "prazoMeses": 0,
+              "taxaJurosMensal": 1.0
+            }
+            """;
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .when()
+                .post("/financiamentos")
+                .then()
+                .statusCode(400)
+                .body(containsString("O prazo deve ser maior que 0"));
+    }
+
+    @Test
+    void deveRetornar400QuandoTaxaInvalida() {
+        String json = """
+            {
+              "valorInicial": 1000,
+              "prazoMeses": 1,
+              "taxaJurosMensal": 0
+            }
+            """;
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .when()
+                .post("/financiamentos")
+                .then()
+                .statusCode(400)
+                .body(containsString("A taxa de juros deve ser maior que 0"));
+    }
+
+    @Test
+    void deveRetornar400QuandoValorInicialInvalida(){
+        String json = """
+                {
+                 "valorInicial": 0,
+                 "prazoMeses": 1,
+                 "taxaJurosMensal": 1.0
+                }
+                """;
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .when()
+                .post("/financiamentos")
+                .then()
+                .statusCode(400)
+                .body(containsString("O valor inicial deve ser maior que 0"));
     }
 }
